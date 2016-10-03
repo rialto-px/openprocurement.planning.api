@@ -7,7 +7,7 @@ from openprocurement.api.models import Model, Period, Revision
 from openprocurement.api.models import Document as BaseDocument
 from openprocurement.api.models import Unit, CPVClassification, Classification, Identifier
 from openprocurement.api.models import schematics_embedded_role, schematics_default_role, IsoDateTimeType, ListType, MD5Type
-from openprocurement.api.models import validate_cpv_group, validate_items_uniq, validate_dkpp, get_now
+from openprocurement.api.models import validate_cpv_group, validate_items_uniq, get_now
 from pyramid.security import Allow
 from schematics.transforms import whitelist, blacklist
 from schematics.types import StringType, IntType, FloatType, BaseType
@@ -48,8 +48,7 @@ class PlanItem(Model):
     """Simple item model for planing"""
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(Classification), default=list(), required=True, min_size=1,
-                                         validators=[validate_dkpp])
+    additionalClassifications = ListType(ModelType(Classification), default=list(), required=True, min_size=1)
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = IntType()  # The number of units required
     deliveryDate = ModelType(Period)

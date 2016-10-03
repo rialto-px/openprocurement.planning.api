@@ -418,19 +418,6 @@ class PlanResourceTest(BaseWebTest):
              u'name': u'tender'}
         ])
 
-        data = test_plan_data["items"][0]["additionalClassifications"][0]["scheme"]
-        test_plan_data["items"][0]["additionalClassifications"][0]["scheme"] = u'Не ДКПП'
-        response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
-        test_plan_data["items"][0]["additionalClassifications"][0]["scheme"] = data
-        self.assertEqual(response.status, '422 Unprocessable Entity')
-        self.assertEqual(response.content_type, 'application/json')
-        self.assertEqual(response.json['status'], 'error')
-        self.assertEqual(response.json['errors'], [
-            {u'description': [{u'additionalClassifications': [
-                u"One of additional classifications should be one of [\u0414\u041a\u041f\u041f, NONE, \u0414\u041a003, \u0414\u041a015, \u0414\u041a018]."]}], u'location': u'body',
-                u'name': u'items'}
-        ])
-
         data = test_plan_data["procuringEntity"]["name"]
         del test_plan_data["procuringEntity"]["name"]
         response = self.app.post_json(request_path, {'data': test_plan_data}, status=422)
