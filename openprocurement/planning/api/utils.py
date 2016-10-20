@@ -46,7 +46,7 @@ def generate_plan_id(ctime, db, server_id=''):
             sleep(1)
         else:
             break
-    return 'UA-P-{:04}-{:02}-{:02}-{:06}{}'.format(ctime.year, ctime.month, ctime.day, index,
+    return 'R-UA-P-{:04}-{:02}-{:02}-{:06}{}'.format(ctime.year, ctime.month, ctime.day, index,
                                                    server_id and '-' + server_id)
 
 
