@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import logging
+from openprocurement.api.models import get_now
 from openprocurement.planning.api.traversal import Root
 from openprocurement.planning.api.models import Plan
 
@@ -37,16 +38,18 @@ def from0to1(registry):
     class Request(object):
         def __init__(self, registry):
             self.registry = registry
-    results = registry.db.iterview('plans/all', 2 ** 10, include_docs=True)
+    len(registry.db.view('plans/all', limit=1))
+    results = registry.db.iterview('plans/all', 2 ** 10, include_docs=True, stale='update_after')
     docs = []
     request = Request(registry)
     root = Root(request)
     for i in results:
         doc = i.doc
-        if doc.get('documents'):
+        if not all([i.get('url', '').startswith(registry.docservice_url) for i in doc.get('documents', [])]):
             plan = Plan(doc)
             plan.__parent__ = root
             doc = plan.to_primitive()
+            doc['dateModified'] = get_now().isoformat()
             docs.append(doc)
         if len(docs) >= 2 ** 7:
             registry.db.update(docs)
