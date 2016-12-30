@@ -10,7 +10,7 @@ class MigrateTest(BaseWebTest):
 
     def test_migrate(self):
         self.assertEqual(get_db_schema_version(self.db), SCHEMA_VERSION)
-        migrate_data(self.app.app.registry, 1)
+        migrate_data(self.app.app.registry)
         self.assertEqual(get_db_schema_version(self.db), SCHEMA_VERSION)
 
     def test_migrate_from0to1(self):
@@ -43,7 +43,6 @@ class MigrateTest(BaseWebTest):
         set_db_schema_version(self.db, 1)
         data = {'doc_type': 'Plan'}
         _id, _rev = self.db.save(data)
-        self.app.app.registry.docservice_url = 'http://localhost'
         migrate_data(self.app.app.registry, 2)
         migrated_item = self.db.get(_id)
         self.assertIn('operator', migrated_item)
