@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import logging
+from openprocurement.api.models import get_now
 from openprocurement.planning.api.traversal import Root
 from openprocurement.planning.api.models import Plan
 
 LOGGER = logging.getLogger(__name__)
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 SCHEMA_DOC = 'openprocurement_plans_schema'
 
 
@@ -47,6 +48,22 @@ def from0to1(registry):
             plan = Plan(doc)
             plan.__parent__ = root
             doc = plan.to_primitive()
+            docs.append(doc)
+        if len(docs) >= 2 ** 7:
+            registry.db.update(docs)
+            docs = []
+    if docs:
+        registry.db.update(docs)
+
+
+def from1to2(registry):
+    results = registry.db.iterview('plans/all', 2 ** 10, include_docs=True)
+    docs = []
+    for i in results:
+        doc = i.doc
+        if not doc.get('operator'):
+            doc['operator'] = 'UA'
+            doc['dateModified'] = get_now().isoformat()
             docs.append(doc)
         if len(docs) >= 2 ** 7:
             registry.db.update(docs)

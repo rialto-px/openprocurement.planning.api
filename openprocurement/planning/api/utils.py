@@ -22,7 +22,7 @@ PKG = get_distribution(__package__)
 LOGGER = getLogger(PKG.project_name)
 
 
-def generate_plan_id(ctime, db, server_id=''):
+def generate_plan_id(ctime, db, server_id='', operator='UA'):
     """ Generate ID for new plan in format "UA-P-YYYY-MM-DD-NNNNNN" + ["-server_id"]
         YYYY - year, MM - month (start with 1), DD - day, NNNNNN - sequence number per 1 day
         and save plans count per day in database document with _id = "planID" as { key, value } = { "2015-12-03": 2 }
@@ -46,8 +46,8 @@ def generate_plan_id(ctime, db, server_id=''):
             sleep(1)
         else:
             break
-    return 'R-UA-P-{:04}-{:02}-{:02}-{:06}{}'.format(ctime.year, ctime.month, ctime.day, index,
-                                                   server_id and '-' + server_id)
+    return 'R-{}-P-{:04}-{:02}-{:02}-{:06}{}'.format(operator, ctime.year,
+        ctime.month, ctime.day, index, server_id and '-' + server_id)
 
 
 def plan_serialize(request, plan_data, fields):

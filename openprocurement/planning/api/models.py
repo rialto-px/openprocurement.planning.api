@@ -92,9 +92,9 @@ class Document(BaseDocument):
 
 # roles
 plain_role = (blacklist('_attachments', 'revisions', 'dateModified') + schematics_embedded_role)
-create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments') + schematics_embedded_role)
+create_role = (blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'planID', 'doc_id', '_attachments', 'operator') + schematics_embedded_role)
 edit_role = (
-    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'doc_id', 'planID', 'mode', '_attachments') + schematics_embedded_role)
+    blacklist('owner_token', 'owner', '_attachments', 'revisions', 'dateModified', 'datePublished', 'doc_id', 'planID', 'mode', '_attachments', 'operator') + schematics_embedded_role)
 view_role = (blacklist('owner_token', '_attachments', 'revisions') + schematics_embedded_role)
 listing_role = whitelist('dateModified', 'doc_id')
 revision_role = whitelist('revisions')
@@ -164,6 +164,7 @@ class Plan(SchematicsDocument, Model):
     owner = StringType()
     procurementMethodType = StringType()
     revisions = ListType(ModelType(Revision), default=list())
+    operator = StringType(default='UA')
 
     create_accreditations = (1, 3,)
 

@@ -452,12 +452,23 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.content_type, 'application/json')
         plan = response.json['data']
         self.assertEqual(set(plan), set([
-            u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender',
-            u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner'
+            u'id', u'dateModified', u'datePublished', u'planID', u'budget',
+            u'tender', u'classification', u'additionalClassifications',
+            u'items', u'procuringEntity', u'owner', u'operator',
         ]))
         self.assertNotEqual(data['id'], plan['id'])
         self.assertNotEqual(data['doc_id'], plan['id'])
         self.assertNotEqual(data['planID'], plan['planID'])
+
+    def test_create_plan_operator(self):
+        self.app.authorization = ('Basic', ('brokerxx', ''))
+        data = test_plan_data.copy()
+        response = self.app.post_json('/plans', {'data': data})
+        self.assertEqual(response.status, '201 Created')
+        self.assertEqual(response.content_type, 'application/json')
+        plan = response.json['data']
+        self.assertEqual(plan['operator'], 'XX')
+        self.assertTrue(plan['planID'].startswith('R-XX-'))
 
     def test_create_plan(self):
         response = self.app.get('/plans')
@@ -468,7 +479,7 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         plan = response.json['data']
-        self.assertEqual(set(plan) - set(test_plan_data), set([u'id', u'dateModified', u'datePublished', u'planID', u'owner']))
+        self.assertEqual(set(plan) - set(test_plan_data), set([u'id', u'dateModified', u'datePublished', u'planID', u'owner', u'operator']))
         self.assertIn(plan['id'], response.headers['Location'])
 
         response = self.app.get('/plans/{}'.format(plan['id']))

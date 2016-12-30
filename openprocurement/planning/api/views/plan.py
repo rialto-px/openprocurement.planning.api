@@ -335,8 +335,9 @@ class PlansResource(APIResource):
         plan_id = generate_id()
         plan = self.request.validated['plan']
         plan.id = plan_id
+        plan.operator = self.request.operator
 
-        plan.planID = generate_plan_id(get_now(), self.db, self.server_id)
+        plan.planID = generate_plan_id(get_now(), self.db, self.server_id, self.request.operator)
         set_ownership(plan, self.request)
         self.request.validated['plan'] = plan
         self.request.validated['plan_src'] = {}
