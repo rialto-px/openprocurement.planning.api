@@ -467,8 +467,8 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '201 Created')
         self.assertEqual(response.content_type, 'application/json')
         plan = response.json['data']
-        self.assertEqual(plan['operator'], 'XX')
-        self.assertTrue(plan['planID'].startswith('R-XX-'))
+        self.assertEqual(plan['operator'], 'xx')
+        self.assertTrue(plan['planID'].startswith('R-YY-'))
 
     def test_create_plan(self):
         response = self.app.get('/plans')
