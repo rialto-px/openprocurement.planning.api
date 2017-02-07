@@ -24,13 +24,6 @@ test_plan_data =  {
                 "deliveryDate": {
                     "endDate": (now + timedelta(days=15)).isoformat()
                 },
-                "additionalClassifications": [
-                    {
-                        "scheme": u"ДКПП",
-                        "id": u"01.11.92",
-                        "description": u"Насіння гірчиці"
-                    }
-                ],
                 "unit": {
                     "code": u"KGM",
                     "name": u"кг"
@@ -47,13 +40,6 @@ test_plan_data =  {
                 "deliveryDate": {
                     "endDate": (now + timedelta(days=16)).isoformat()
                 },
-                "additionalClassifications": [
-                    {
-                        "scheme": u"ДКПП",
-                        "id": u"01.11.95",
-                        "description": u"Насіння соняшнику"
-                    }
-                ],
                 "unit": {
                     "code": u"KGM",
                     "name": u"кг"
@@ -70,13 +56,6 @@ test_plan_data =  {
                 "deliveryDate": {
                     "endDate": (now + timedelta(days=17)).isoformat()
                 },
-                "additionalClassifications": [
-                    {
-                        "scheme": u"ДКПП",
-                        "id": u"01.11.84",
-                        "description": u"Насіння бавовнику"
-                    }
-                ],
                 "unit": {
                     "code": u"KGM",
                     "name": u"кг"
@@ -95,13 +74,6 @@ test_plan_data =  {
             "description": u"Seeds",
             "id": u"03111000-2"
         },
-        "additionalClassifications": [
-            {
-                "scheme": u"КЕКВ",
-                "id": u"1",
-                "description": u"-"
-            }
-        ],
         "procuringEntity": {
             "identifier": {
                 "scheme": u"UA-EDR",

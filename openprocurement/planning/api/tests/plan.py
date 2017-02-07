@@ -453,7 +453,7 @@ class PlanResourceTest(BaseWebTest):
         plan = response.json['data']
         self.assertEqual(set(plan), set([
             u'id', u'dateModified', u'datePublished', u'planID', u'budget', u'tender',
-            u'classification', u'additionalClassifications', u'items', u'procuringEntity', u'owner'
+            u'classification', u'items', u'procuringEntity', u'owner'
         ]))
         self.assertNotEqual(data['id'], plan['id'])
         self.assertNotEqual(data['doc_id'], plan['id'])
@@ -583,6 +583,11 @@ class PlanResourceTest(BaseWebTest):
         self.assertEqual(response.status, '200 OK')
         self.assertEqual(response.content_type, 'application/json')
 
+        plan['items'][0]['additionalClassifications'] = [{
+            "scheme": u"ДКПП",
+            "id": u"01.11.95",
+            "description": u"Насіння соняшнику"
+        }]
         response = self.app.patch_json('/plans/{}'.format(plan['id']),
                                        {'data': {'items': [{"additionalClassifications": [
                                            plan['items'][0]["additionalClassifications"][0] for i in range(3)

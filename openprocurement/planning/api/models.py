@@ -48,7 +48,7 @@ class PlanItem(Model):
     """Simple item model for planing"""
     id = StringType(required=True, min_length=1, default=lambda: uuid4().hex)
     classification = ModelType(CPVClassification, required=True)
-    additionalClassifications = ListType(ModelType(Classification), default=list(), required=True, min_size=1)
+    additionalClassifications = ListType(ModelType(Classification), default=list())
     unit = ModelType(Unit)  # Description of the unit which the good comes in e.g. hours, kilograms
     quantity = IntType()  # The number of units required
     deliveryDate = ModelType(Period)
@@ -149,7 +149,7 @@ class Plan(SchematicsDocument, Model):
     # additionalClassifications[0]:scheme
     # additionalClassifications[0]:id
     # additionalClassifications[0]:description
-    additionalClassifications = ListType(ModelType(Classification), default=list(), required=False)
+    additionalClassifications = ListType(ModelType(Classification), default=list())
 
     documents = ListType(ModelType(Document), default=list())  # All documents and attachments related to the tender.
 
